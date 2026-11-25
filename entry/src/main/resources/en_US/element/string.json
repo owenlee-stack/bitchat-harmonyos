@@ -1,0 +1,32 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "bitchat decentralized mesh chat"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "bitchat main entry"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "bitchat"
+    },
+    {
+      "name": "permission_bluetooth_reason",
+      "value": "bitchat uses Bluetooth to discover and connect to nearby peers over the mesh network."
+    },
+    {
+      "name": "permission_location_reason",
+      "value": "Location permission is required by the system for Bluetooth scanning of nearby peers."
+    },
+    {
+      "name": "permission_microphone_reason",
+      "value": "bitchat uses the microphone to record voice messages and push-to-talk bursts."
+    },
+    {
+      "name": "permission_camera_reason",
+      "value": "bitchat uses the camera to scan QR codes for identity verification."
+    }
+  ]
+}

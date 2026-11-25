@@ -1,0 +1,142 @@
+{
+  "scenarios": [
+    {
+      "id": "discovery",
+      "title": "发现：双机互相进入 peer 列表",
+      "pair": "any",
+      "steps": [
+        "两台设备均完成引导页并停留在公聊页（默认频道 #general）",
+        "保持双机 BLE 开启、屏幕亮屏，等待 30–60 秒",
+        "在每台设备的成员/附近设备列表中确认能看到对方昵称"
+      ],
+      "markers": {
+        "harmony": ["BleMeshService", "GattClient", "GattServer"],
+        "android": ["BluetoothMeshService", "BluetoothConnectionManager"]
+      },
+      "pass": "双方 peer 列表互相可见，且对方昵称与公告一致"
+    },
+    {
+      "id": "announce",
+      "title": "公告：昵称/身份公告包互通",
+      "pair": "any",
+      "steps": [
+        "完成 discovery 场景后，其中一台设备在设置中修改昵称",
+        "等待 announce 周期（最长 120 秒）或重启应用触发立即公告",
+        "在另一台设备上确认 peer 列表中昵称已更新"
+      ],
+      "markers": {
+        "harmony": ["AnnounceScheduler", "BleMeshService"],
+        "android": ["PeerManager", "BluetoothPacketBroadcaster"]
+      },
+      "pass": "对端在两个周期内显示新昵称"
+    },
+    {
+      "id": "public-chat",
+      "title": "公聊：#general 双向消息",
+      "pair": "any",
+      "steps": [
+        "设备 A 在 #general 发送一条文本消息",
+        "设备 B 确认公聊页实时显示该消息（含发送者昵称与时间）",
+        "设备 B 回复一条消息，设备 A 确认收到"
+      ],
+      "markers": {
+        "harmony": ["ChatViewModel", "BleMeshService"],
+        "android": ["PacketProcessor", "MessageHandler"]
+      },
+      "pass": "双向消息均在 10 秒内显示，内容与昵称无乱码"
+    },
+    {
+      "id": "dm",
+      "title": "私聊：Noise 会话与双向 DM",
+      "pair": "any",
+      "steps": [
+        "设备 A 从 peer 列表打开与设备 B 的私聊",
+        "设备 A 发送一条 DM，设备 B 确认私聊会话出现并显示明文",
+        "设备 B 回复一条 DM，设备 A 确认收到"
+      ],
+      "markers": {
+        "harmony": ["PrivateChatView", "GattClient"],
+        "android": ["SecurityManager", "PacketProcessor"]
+      },
+      "pass": "双向 DM 均为明文可读，会话徽标未出现异常"
+    },
+    {
+      "id": "receipts",
+      "title": "回执：送达/已读回执",
+      "pair": "any",
+      "steps": [
+        "在 dm 场景基础上，设备 A 发送一条 DM",
+        "设备 B 停留在私聊页阅读该消息",
+        "设备 A 确认消息状态从发送中/已送达变为已读"
+      ],
+      "markers": {
+        "harmony": ["ChatViewModel"],
+        "android": ["MessageHandler"]
+      },
+      "pass": "A 侧状态标识在 B 阅读后 15 秒内更新"
+    },
+    {
+      "id": "media",
+      "title": "媒体：私聊语音/图片传输",
+      "pair": "any",
+      "steps": [
+        "设备 A 在私聊中录制一段 5–10 秒语音便签并发送",
+        "设备 B 确认收到语音气泡并可正常播放",
+        "（可选）设备 B 发送一张图片，设备 A 确认可查看"
+      ],
+      "markers": {
+        "harmony": ["LiveVoiceManager", "VoiceNotePlayer", "MediaFileStore"],
+        "android": ["PacketProcessor", "MessageHandler"]
+      },
+      "pass": "语音在 B 侧可播放且时长一致；媒体缩略图/文件不损坏"
+    },
+    {
+      "id": "sync",
+      "title": "同步：离线补拉",
+      "pair": "any",
+      "steps": [
+        "设备 B 完全退出应用（最近任务划掉 / force-stop）",
+        "设备 A 在公聊或私聊发送 2–3 条消息",
+        "重新启动设备 B 应用并停留对应会话页",
+        "设备 B 确认补拉到全部离线期间消息，顺序正确"
+      ],
+      "markers": {
+        "harmony": ["ChatViewModel", "BleMeshService"],
+        "android": ["StoreForwardManager", "PacketProcessor"]
+      },
+      "pass": "B 侧无缺漏、无重复、顺序与 A 侧一致"
+    },
+    {
+      "id": "nostr",
+      "title": "Nostr：中继连通与中继消息",
+      "pair": "any",
+      "steps": [
+        "两台设备接入互联网并开启中继（默认或自定义 wss://）",
+        "确认设置页/日志显示中继已连接",
+        "设备 A 通过 Nostr 发送消息（公聊中继频道或 Nostr DM）",
+        "设备 B 确认通过中继收到该消息"
+      ],
+      "markers": {
+        "harmony": ["NostrRelayManager"],
+        "android": ["NostrManager"]
+      },
+      "pass": "双侧中继状态为已连接，中继消息双向可达"
+    },
+    {
+      "id": "courier",
+      "title": "信使：courier 暂存（三机增强）",
+      "pair": "hm-hm",
+      "steps": [
+        "（完整验证需三台设备：发送方 A、courier C、收件人 B）",
+        "双机半程验证：设备 A 将发往离线收件人的消息经设备 B（courier）转发",
+        "检查设备 B 的暂存目录：仅存在加密信封，无明文",
+        "三机时：收件人 B 上线后确认收到全部暂存消息"
+      ],
+      "markers": {
+        "harmony": ["BleMeshService", "ChatViewModel"],
+        "android": ["StoreForwardManager", "PacketRelayManager"]
+      },
+      "pass": "courier 侧无可读明文；三机场景下离线消息完整送达"
+    }
+  ]
+}

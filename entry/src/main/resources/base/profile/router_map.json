@@ -1,0 +1,29 @@
+{
+  "routerMap": [
+    {
+      "buildFunction": "PrivateChatViewBuilder",
+      "name": "privateChat",
+      "pageSourceFile": "src/main/ets/views/PrivateChatView.ets"
+    },
+    {
+      "buildFunction": "ChannelChatViewBuilder",
+      "name": "channelChat",
+      "pageSourceFile": "src/main/ets/views/ChannelChatView.ets"
+    },
+    {
+      "buildFunction": "LocationChannelViewBuilder",
+      "name": "locationChannel",
+      "pageSourceFile": "src/main/ets/views/LocationChannelView.ets"
+    },
+    {
+      "buildFunction": "SettingsViewBuilder",
+      "name": "settings",
+      "pageSourceFile": "src/main/ets/views/SettingsView.ets"
+    },
+    {
+      "buildFunction": "AboutViewBuilder",
+      "name": "about",
+      "pageSourceFile": "src/main/ets/views/AboutView.ets"
+    }
+  ]
+}

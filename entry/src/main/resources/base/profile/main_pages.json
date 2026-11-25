@@ -1,0 +1,7 @@
+{
+  "src": [
+    "pages/ChatPage",
+    "pages/OnboardingPage",
+    "pages/GeohashPickerPage"
+  ]
+}

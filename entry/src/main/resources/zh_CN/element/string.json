@@ -1,0 +1,32 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "bitchat 去中心化 mesh 聊天"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "bitchat 主入口"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "bitchat"
+    },
+    {
+      "name": "permission_bluetooth_reason",
+      "value": "bitchat 需要使用蓝牙在 mesh 网络中发现并连接附近设备。"
+    },
+    {
+      "name": "permission_location_reason",
+      "value": "系统要求位置权限用于扫描附近的蓝牙设备。"
+    },
+    {
+      "name": "permission_microphone_reason",
+      "value": "bitchat 需要使用麦克风录制语音消息与按住说话。"
+    },
+    {
+      "name": "permission_camera_reason",
+      "value": "bitchat 需要使用相机扫描二维码以完成身份验证。"
+    }
+  ]
+}
